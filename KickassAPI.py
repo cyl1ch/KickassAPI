@@ -5,7 +5,7 @@
 # Author: FEE1DE4D
 
 """
-This is an unofficial python API for kickass.to partially
+This is an unofficial python API for kickass.so partially
 inspired by https://github.com/karan/TPB
 
 by FEE1DE4D (fee1de4d@gmail.com)
@@ -21,8 +21,8 @@ from collections import namedtuple
 
 # CONSTANTS
 class BASE(object):
-    SEARCH = "http://www.kickass.to/usearch/"
-    LATEST = "http://www.kickass.to/new/"
+    SEARCH = "http://www.kickass.so/usearch/"
+    LATEST = "http://www.kickass.so/new/"
 
 class CATEGORY(object):
     MOVIES = "movies"
@@ -202,7 +202,7 @@ class Results(object):
         category = td("span").find("strong").find("a").eq(0).text()
         verified_torrent = True if td("a.iverify.icon16") else False
         comments = td("a.icomment.icommentjs.icon16").text()
-        torrent_link = "http://www.kickass.to"
+        torrent_link = "http://www.kickass.so"
         if td("a.cellMainLink").attr("href") is not None:
             torrent_link += td("a.cellMainLink").attr("href")
         magnet_link = td("a.imagnet.icon16").attr("href")
@@ -313,7 +313,7 @@ class Results(object):
 
 class Latest(Results):
     """
-    Results subclass that represents http://kickass.to/new/
+    Results subclass that represents http://kickass.so/new/
     """
     def __init__(self, page=1, order=None):
         self.url = LatestUrl(page, order)
@@ -322,7 +322,7 @@ class Latest(Results):
 
 class Search(Results):
     """
-    Results subclass that represents http://kickass.to/usearch/
+    Results subclass that represents http://kickass.so/usearch/
     """
     def __init__(self, query, page=1, category=None, order=None):
         self.url = SearchUrl(query, page, category, order)

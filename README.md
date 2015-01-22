@@ -1,6 +1,6 @@
 KickassAPI
 ==========
-This is an unofficial python API for kickass.to partially inspired by https://github.com/karan/TPB
+This is an unofficial python API for kickass.so partially inspired by https://github.com/karan/TPB
 
 Installation
 -----------
@@ -12,7 +12,7 @@ pip install KickassAPI
 Usage
 -----
 
-```Search``` represents ```http://kickass.to/usearch/``` and ```Latest``` ```http://kickass.to/new/```  
+```Search``` represents ```http://kickass.so/usearch/``` and ```Latest``` ```http://kickass.so/new/```
 
 ```python
 from KickassAPI import Search, Latest, CATEGORY, ORDER
