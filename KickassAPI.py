@@ -14,6 +14,9 @@ under GPLv2 (http://www.gnu.org/licenses/gpl-2.0.html)
 
 
 # IMPORTS
+import gzip
+from StringIO import StringIO
+import urllib2
 from pyquery import PyQuery
 import threading
 from collections import namedtuple
@@ -41,6 +44,21 @@ class ORDER(object):
     LEECH = "leechers"
     ASC = "asc"
     DESC = "desc"
+
+
+def gzip_capable_pyquery(url):
+    """
+    Helper function that allows PyQuery to handle gzipped responses
+    """
+    response = urllib2.urlopen(urllib2.Request(url))
+    content = response.read()
+
+    if response.info().get('Content-Encoding') == 'gzip':
+        compressed = StringIO(content)
+        content = gzip.GzipFile(fileobj=compressed).read()
+        compressed.close()
+
+    return PyQuery(content)
 
 
 class Torrent(namedtuple("Torrent", ["name", "author", "verified_author",
@@ -85,7 +103,7 @@ class Url(object):
         """
         Open url and return amount of pages
         """
-        pq = PyQuery(url)
+        pq = gzip_capable_pyquery(url)
         try:
             tds = int(pq("h2").text().split()[-1])
             if tds % 25:
@@ -224,7 +242,7 @@ class Results(object):
         Return all rows on page
         """
         #TODO - caching
-        pq = PyQuery(url=self.url.build())
+        pq = gzip_capable_pyquery(self.url.build())
         rows = pq("table.data").find("tr")
         return map(rows.eq, range(rows.size()))[1:]
 
