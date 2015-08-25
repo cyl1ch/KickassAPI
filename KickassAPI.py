@@ -19,6 +19,8 @@ from collections import namedtuple
 import requests
 import re
 
+import urllib
+
 # CONSTANTS
 class BASE(object):
     domain='kat.cr'
@@ -144,7 +146,6 @@ class SearchUrl(Url):
         """
         Build and return url. Also update max_page.
         """
-        ret = self.base + self.query
         page = "".join(("/", str(self.page), "/"))
 
         if self.category:
@@ -157,7 +158,7 @@ class SearchUrl(Url):
         else:
             order = ""
 
-        ret = "".join((self.base, self.query, category, page, order))
+        ret = "".join((self.base, urllib.quote_plus(self.query), category, page, order))
 
         if update:
             self.max_page = self._get_max_page(ret)
@@ -234,8 +235,8 @@ class Results(object):
         torrent_link = "http://" + BASE.domain
         if td("a.cellMainLink").attr("href") is not None:
             torrent_link += td("a.cellMainLink").attr("href")
-        magnet_link = td("a.imagnet.icon16").attr("href")
-        download_link = td("a.idownload.icon16").eq(1).attr("href")
+        magnet_link = td("a.icon16[href*='magnet']").attr("href")
+        download_link = td("a.icon16[href*='.torrent']").attr("href")
 
         td_centers = row("td.center")
         size = td_centers.eq(0).text()
