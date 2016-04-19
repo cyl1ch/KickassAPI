@@ -224,7 +224,10 @@ class Results(object):
         Parse row into namedtuple
         """
         td = row("td")
-        name = td("a.cellMainLink").text()
+        name = td("a.cellMainLink").html().replace(
+          '<strong class="red">','').replace(
+          '</strong>','').replace(
+          '<','').replace('>','')
         name = name.replace(" . ", ".").replace(" .", ".")
         author = td("a.plain").text()
         verified_author = True if td(".lightgrey>.ka-verify") else False
