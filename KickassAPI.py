@@ -61,8 +61,8 @@ class Torrent(namedtuple("Torrent", ["name", "author", "verified_author",
         """
         Prints name, author, size and age
         """
-        print "%s by %s, size: %s, uploaded %s ago" % (self.name, self.author,
-                                                       self.size, self.age)
+        print( "%s by %s, size: %s, uploaded %s ago" % (self.name, self.author,
+                                                       self.size, self.age))
 
 
 class Url(object):
